@@ -30,6 +30,23 @@ class DecodingPolicyState:
             self.extra_step_proportions.append(round(1.0 / self.num_blocks, 2))
 
     def clone(self):
+        new = DecodingPolicyState(
+            self.possible_temperatures, 
+            self.possible_remasking_strategies
+        )
+
+        new.temperature_schedule = self.temperature_schedule.copy()
+        new.remasking_strategy_schedule = self.remasking_strategy_schedule.copy()
+        new.block_schedule = self.block_schedule.copy()
+        new.extra_step_proportions = self.extra_step_proportions.copy()
+        new.steps = self.steps
+        new.gen_length = self.gen_length
+        new.num_blocks = self.num_blocks
+
+        return new
+    
+    def mutate(self):
+        new = self.clone()
         pass
 
 if __name__ == '__main__':

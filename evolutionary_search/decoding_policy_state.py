@@ -46,7 +46,7 @@ class DecodingPolicyState:
 
         return new
     
-    def mutate(self, random=True, mutation_type=None):
+    def mutate(self, random_select=True, mutation_type=None):
         """
         If random is True, randomly selects a mutation type and applies it. 
         If random is False, uses the provided mutation_type (make sure it is not None and one of the valid types)
@@ -56,7 +56,7 @@ class DecodingPolicyState:
         new = self.clone()
         
         # Choose mutation type if random is True
-        if random:
+        if random_select:
             mutation_type = random.choice(['temperature', 'remasking_strategy', 'block_length', 'extra_step_proportion'])
 
         index = random.randint(0, self.num_blocks - 1) # randomly select a block to mutate
@@ -102,14 +102,14 @@ if __name__ == '__main__':
     print("Block Schedule:", policy_state.block_schedule)
     print("Extra Step Proportions:", policy_state.extra_step_proportions)
 
-    cloned_state = policy_state.clone()
-    cloned_state.temperature_schedule[0] = 0.5  # Modify cloned state
-    # Output should show that the original state remains unchanged and that the cloned state reflects the modification
-    print("Original Temperature Schedule after cloning:", policy_state.temperature_schedule)
-    print("Cloned Temperature Schedule after modification:", cloned_state.temperature_schedule)
-    print("Original Remasking Strategy Schedule after cloning:", policy_state.remasking_strategy_schedule)
-    print("Cloned Remasking Strategy Schedule after modification:", cloned_state.remasking_strategy_schedule)
-    print("Original Block Schedule after cloning:", policy_state.block_schedule)
-    print("Cloned Block Schedule after modification:", cloned_state.block_schedule)
-    print("Original Extra Step Proportions after cloning:", policy_state.extra_step_proportions)
-    print("Cloned Extra Step Proportions after modification:", cloned_state.extra_step_proportions)
+    # do 5 mutations
+    for i in range(5):
+        print(f"Mutated Policy State {i}: ")
+        mutated_state, mutation_type = policy_state.mutate(random_select=True, mutation_type=None)
+        print(f"Mutation Type ({mutation_type}):")
+        print("Temperature Schedule:", mutated_state.temperature_schedule)
+        print("Remasking Strategy Schedule:", mutated_state.remasking_strategy_schedule)
+        print("Block Schedule:", mutated_state.block_schedule)
+        print("Extra Step Proportions:", mutated_state.extra_step_proportions)
+        policy_state = mutated_state
+        # Update the original policy state to the mutated one for the next iteration

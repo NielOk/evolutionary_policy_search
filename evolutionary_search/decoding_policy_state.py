@@ -92,8 +92,8 @@ class DecodingPolicyState:
                 new.extra_step_proportions[second_index] = round(new.extra_step_proportions[second_index] - delta, 2)
 
         return new, mutation_type
-
-if __name__ == '__main__':
+    
+def decoding_policy_state_example():
     # Example usage
     policy_state = DecodingPolicyState(num_blocks=4, steps=128, gen_length=128)
     policy_state.initialize_default_policy()
@@ -113,3 +113,9 @@ if __name__ == '__main__':
         print("Extra Step Proportions:", mutated_state.extra_step_proportions)
         policy_state = mutated_state
         # Update the original policy state to the mutated one for the next iteration
+
+def main():
+    decoding_policy_state_example()
+
+if __name__ == '__main__':
+    main()

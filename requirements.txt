@@ -5,3 +5,4 @@ datasets
 python-dotenv
 huggingface_hub
 openai
+python-dotenv
